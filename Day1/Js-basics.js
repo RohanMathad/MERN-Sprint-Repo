@@ -40,9 +40,26 @@ const getEmployeeByDesignation = (designation) => {
 }
 
 
-// Example usage s
-console.log(findEmployeeById(2)); // { id: 2, name: 'Jane Smith', position: 'Project Manager', salary: 75000 }
-console.log(calculateAverageSalary()); // 63333.333333333336
-console.log(getEmployeeNames()); // [ 'John Doe', 'Jane Smith', 'Mike Johnson' ]
-console.log(getEmployeeByDesignation("Software Engineer")); // [ { id: 1, name: 'John Doe', position: 'Software Engineer', salary: 60000 } ]
+// Example usages..
+console.log(findEmployeeById(2)); 
+// { id: 2, name: 'Jane Smith', position: 'Project Manager', salary: 75000 }
+console.log(calculateAverageSalary()); 
+// 63333.333333333336
+console.log(getEmployeeNames()); 
+// [ 'John Doe', 'Jane Smith', 'Mike Johnson' ]
+console.log(getEmployeeByDesignation("Software Engineer")); 
+// [ { id: 1, name: 'John Doe', position: 'Software Engineer', salary: 60000 } ]
 
+
+
+//Destructuring
+
+const arrOfNumbers  = [1, 2, 3, 4, 5];
+const [first, second, ...rest] = arrOfNumbers;
+console.log(first); //output ->1
+
+//Spread operator
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combinedArr = [...arr1, ...arr2];
+console.log(combinedArr); //output-[1, 2, 3, 4, 5, 6]
