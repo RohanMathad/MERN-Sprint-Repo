@@ -24,3 +24,16 @@ VM297:7 stopping the count when the value is 5
 */
 
 
+
+//DateTime
+    const currentDate = new Date();
+    console.log(`current Date-time details--- ${currentDate.toString()}`);
+//current Date-time details--- Thu Oct 29 2026 22:11:09 GMT+0530 (India Standard Time)
+
+
+const timestamp = Date.now();
+console.log(`Raw milliseconds -- ${timestamp}`)
+//Raw milliseconds -- 1793292185179
+
+
+
