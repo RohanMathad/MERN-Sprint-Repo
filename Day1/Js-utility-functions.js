@@ -36,4 +36,98 @@ console.log(`Raw milliseconds -- ${timestamp}`)
 //Raw milliseconds -- 1793292185179
 
 
+// Higher order funciton
+const debounce = (apiCall, delay) => {
+    let timeDelay;
+
+    return(...args) => {
+
+        clearTimeout(timeDelay);
+
+        timeDelay = setTimeout(() => {
+            apiCall(...args);
+        }, delay);
+    }
+}
+
+const fetchDemoApiData = async (username) => {
+    console.log('api call starts here...')
+
+    try {
+        const request = await fetch(`https://jsonplaceholder.typicode.com/users?username=${username}`)
+        const data = await response.json();
+
+        data.length > 0 ? console.log('data fetched!') : console.log('user not found')
+            
+    } catch (error) {
+        console.log(`${error.message}`);
+    }
+
+}
+
+export const smartSearch = debounce(fetchDemoApiData, 1500);
+
+console.log('user typed A');
+smartSearch('A');
+
+console.log('user typed Ant');
+smartSearch('Ant');
+
+console.log('user typed Antonette');
+smartSearch('Antonette');
+
+
+// Epoch Nomalization
+const normalizeEpoch = (rawTimestamp) => {
+    const timeNumber = Number(rawTimestamp);
+
+    if(timeNumber  < 1000000000000 ){
+        return timeNumber * 1000;
+    }
+
+    return timeNumber;
+}
+
+// console.log(`first device-${normalizeEpoch(1729141800)}`);
+// console.log(`second device-${normalizeEpoch(1729141800000)}`);
+/*
+first device-1729141800000
+second device-1729141800000
+*/
+
+const dateTimeFormatter = new Intl.DateTimeFormat('en-IN', {
+    year : 'numeric',
+    month  : 'short',
+    day : '2-digit',
+    hour : '2-digit',
+    minute : '2-digit',
+    second  :'2-digit',
+    hour12 :  true
+})
+
+
+const formatDeviceTime = ( rawTime ) =>{
+
+    if(!rawTime && rawTime !== 0){
+        return 'Falsy data'
+    }
+    
+    const validMilliseconds = normalizeEpoch(rawTime);
+
+    if(Number.isNaN(validMilliseconds)){
+        return 'Invalid Sensor data';
+    }
+
+    const dateObj = new Date(validMilliseconds);
+
+    return dateTimeFormatter.format(dateObj)
+}
+
+// console.log(`vehicle 1 time received - 1729141800s, formatted device time is - ${formatDeviceTime(1729141800)}`)
+// console.log(`vehicle 2 time - 1730459392123ms, formatted time - ${formatDeviceTime(1730459392123)}`);
+console.log("Good Data:", formatDeviceTime(1730459392123));
+console.log("Hardware Glitch (Null):", formatDeviceTime(null));
+console.log("Hardware Glitch (Text):", formatDeviceTime("qwertyuiop"));
+
+
 

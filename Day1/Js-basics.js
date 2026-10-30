@@ -58,7 +58,7 @@ const arrOfNumbers  = [1, 2, 3, 4, 5];
 const [first, second, ...rest] = arrOfNumbers;
 console.log(first); //output ->1
 
-//Spread operator
+//Spread operator 
 const arr1 = [1, 2, 3];
 const arr2 = [4, 5, 6];
 const combinedArr = [...arr1, ...arr2];
