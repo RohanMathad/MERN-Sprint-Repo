@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { formatDeviceTime } from './Utils.js'
 
-const F1_ApiUrl = 'https://api.jolpi.ca/ergast/f1/current/last/results.json';
+const F1_ApiUrl = 'https://api.jolpi.ca/ergast/f1/current/last/results.json'
 
 const fetchData = async () => {
     try {
