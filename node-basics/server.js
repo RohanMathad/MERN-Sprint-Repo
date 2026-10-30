@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs/promises');
 const path = require('path');
 
-const PORT =  process.env.PORT || 3000;
+const PORT =  process.env.PORT || 3000
 
 const server = http.createServer( async (req, res) => {
 
