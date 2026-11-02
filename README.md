@@ -6,6 +6,6 @@ MERN - Sprint
 
 31st Oct & 1st Nov - Express based curd app implemented and completed.
 
-2nd Nov -
+2nd Nov - 
 
 
