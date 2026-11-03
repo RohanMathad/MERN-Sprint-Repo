@@ -5,7 +5,7 @@ const getAllTasks = async () => {
 }
 
 const getTaskById = async (id) => {
-    const task = taskRepository.findById(id);
+    const task = await taskRepository.findById(id);
     
     if(!task){
         const error = new Error('Task not found');
@@ -51,8 +51,25 @@ const updateTask = async (id, taskData) => {
 
 }
 
-const deleteTask = () => {
-    
+const deleteTask = async (id) => {
+
+    const taskToDelete = await taskRepository.findById(id);
+    if(!taskToDelete){
+        const error = new Error('Task doesnt exist!!');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    await taskRepository.remove(id);
+    return { message: 'Task deleted successfully'};
+}
+
+module.exports = {
+    getAllTasks,
+    getTaskById,
+    createTask,
+    updateTask,
+    deleteTask
 }
 
 
