@@ -25,7 +25,6 @@ const createTask = async (taskData) => {
     };
 
     const newTaskId = await taskRepository.create(taskData);
-
     
     return await taskRepository.findById(newTaskId);
 }
@@ -70,7 +69,4 @@ module.exports = {
     createTask,
     updateTask,
     deleteTask
-}
-
-
-
+};

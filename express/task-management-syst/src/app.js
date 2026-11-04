@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const taskRoutes = require('./routes/taskRoutes');
 const app = express();
+const sequelize = require('./config/db');
+const Task = require('./models/TaskModel');
 
 const PORT  = process.env.PORT || 3000;
 
@@ -12,6 +14,13 @@ const PORT  = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/api/tasks', taskRoutes);
+app.use('/api/tasks', taskRoutes);
+
+
+
+sequelize.sync({alter : true})
+    .then(() => console.log('db synced withe the sequelized model'))
+    .catch((err) => console.log('sync error - ', err));
 
 
 app.use((req, res) => {
