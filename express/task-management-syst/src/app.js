@@ -8,10 +8,12 @@ const app = express();
 const sequelize = require('./config/db');
 const Task = require('./models/TaskModel');
 
-const PORT  = process.env.PORT || 3000;
-
+const PORT  = process.env.PORT || 3000
+//1234567890234567890
 
 app.use(cors());
+
+// this is a demo text
 app.use(express.json());
 app.use('/api/tasks', taskRoutes);
 app.use('/api/tasks', taskRoutes);
@@ -29,5 +31,5 @@ app.use((req, res) => {
 
 
 app.listen(PORT, () => {
-    `server running on PORT http://localhost${PORT}`;
+    console.log(`server running on PORT http://localhost${PORT}`);
 });
