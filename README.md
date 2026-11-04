@@ -6,6 +6,12 @@ MERN - Sprint
 
 31st Oct & 1st Nov - Express based curd app implemented and completed.
 
-2nd Nov - 
+2nd Nov - Express backend integration
+
+3rd Nov - KT with Abhishek
+
+4th Nov - Express Sequelize integration
+
+
 
 
