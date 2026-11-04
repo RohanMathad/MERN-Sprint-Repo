@@ -19,8 +19,8 @@ const getTaskById = async (id) => {
 const createTask = async (taskData) => {
 
     if(!taskData.title || taskData.title.trim() === ''){
-        const error = new Erorr('Task title is required.')
-        erorr.statusCode = 400;
+        const error = new Error('Task title is required.')
+        error.statusCode = 400;
         throw error
     };
 
