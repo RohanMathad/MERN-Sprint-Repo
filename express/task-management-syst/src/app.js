@@ -15,10 +15,10 @@ app.use(express.json());
 app.use('/api/tasks', taskRoutes);
 
 
-
-sequelize.sync({alter : true})
-    .then(() => console.log('db synced withe the sequelized model'))
-    .catch((err) => console.log('sync error - ', err));
+// NEVER USE THIS IN PROD.. as it can accidentally drop tables or corrupt data 
+// sequelize.sync({alter : true})
+//     .then(() => console.log('db synced withe the sequelized model'))
+//     .catch((err) => console.log('sync error - ', err));
 
 
 app.use((req, res) => {
