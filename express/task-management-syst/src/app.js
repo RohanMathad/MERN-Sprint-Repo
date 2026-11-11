@@ -5,14 +5,14 @@ require('dotenv').config();
 
 const taskRoutes = require('./routes/taskRoutes');
 const app = express();
-const sequelize = require('./config/db');
-const Task = require('./models/TaskModel');
+const projectRoutes = require('./routes/projectRoutes')
 
 const PORT  = process.env.PORT || 3000
 
 app.use(cors());
 app.use(express.json());
 app.use('/api/tasks', taskRoutes);
+app.use('/api/projects', projectRoutes)
 
 
 // NEVER USE THIS IN PROD.. as it can accidentally drop tables or corrupt data 

@@ -1,4 +1,4 @@
-const Task = require('../models/TaskModel');
+const { Task } = require('../models');
 
 const findAll = async () => {
     // SELECT * FROM tasks ORDER BY created_at DESC
@@ -14,12 +14,17 @@ const findById = async (id) => {
 };
 
 const create = async (taskData) => {
-    const { title, description } = taskData;
-    //INSERT INTO tasks (title, description) VALUES (?, ?)
-    const newTask = await Task.create({ title, description });
+
+    const { title, description, status, due_date, project_id } = taskData;
     
-    // Sequelize automatically returns the inserted object,hance we just return its ID
-    // to keep it compatible with our existing Service layer logic.
+    const newTask = await Task.create({ 
+        title, 
+        description, 
+        status, 
+        due_date, 
+        project_id 
+    });
+    
     return newTask.id;
 };
 

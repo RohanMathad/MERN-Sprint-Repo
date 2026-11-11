@@ -23,6 +23,10 @@ const Task = sequelize.define('Task', {
         type: DataTypes.DATE,
         allowNull: true
     },
+    project_id : {
+        type : DataTypes.INTEGER,
+        allowNull : true
+    }
 }, {
     tableName: 'tasks',
     timestamps: true,
