@@ -1,6 +1,6 @@
-const {Project, Task} = require('../models');
+import { Project, Task } from '../models/index.js';
 
-exports.getProjectBilling = async (req, res) => {
+const getProjectBilling = async (req, res) => {
     try {
         const projectId = req.params.id;
 
@@ -14,7 +14,6 @@ exports.getProjectBilling = async (req, res) => {
             ]
         });
 
-
         if(!project){
             return res.status(404).json({success : false, message : 'Project not found'});
         }
@@ -26,6 +25,10 @@ exports.getProjectBilling = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-       res.status(500).json({ success: false, message: error.message }); 
+        res.status(500).json({ success: false, message: error.message }); 
     }
-}      
+};
+
+export {
+    getProjectBilling
+};

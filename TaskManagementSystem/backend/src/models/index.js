@@ -1,5 +1,6 @@
-const Task = require('./TaskModel');
-const Project = require('./projectModel');
+import Task from "./TaskModel.js";
+import Project from './projectModel.js'
+
 
 Project.hasMany(Task, {
     foreignKey : 'project_id',
@@ -11,7 +12,7 @@ Task.belongsTo(Project, {
     as : 'project'
 });
 
-module.exports = {
+export {
     Task,
     Project
 }

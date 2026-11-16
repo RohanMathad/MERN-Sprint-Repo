@@ -1,16 +1,18 @@
-const http = require('http');
-const fs = require('fs/promises');
-const path = require('path');
+import http from 'http';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const PORT =  process.env.PORT || 3000
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const server = http.createServer( async (req, res) => {
+const PORT = process.env.PORT || 3000;
 
-    if(req.url === '/'){
-
-        res.writeHead(200, {'Content-Type' : 'application/json'});
-        res.end(JSON.stringify({message : 'server running..'}))
-    } else if(req.url === '/api/data'){
+const server = http.createServer(async (req, res) => {
+    if (req.url === '/') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'server running..' }));
+    } else if (req.url === '/api/data') {
         try {
             const filePath = path.join(__dirname, 'data.json');
             const data = await fs.readFile(filePath, 'utf-8');
@@ -20,16 +22,15 @@ const server = http.createServer( async (req, res) => {
         } catch (error) {
             console.error(error);
 
-            res.writeHead(500, {'Content-type' : 'application/json'});
-            res.end(JSON.stringify({error : "Internal server error"}))
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal server error' }));
         }
-    } else{
-        res.writeHead(404, {'Content-type' : 'application/json'});
-        res.end(JSON.stringify({error : 'Route not found'}));
+    } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Route not found' }));
     }
-})
-
+});
 
 server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
-})
+    console.log(`Server running on http://localhost:${PORT}`);
+});
