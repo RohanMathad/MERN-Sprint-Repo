@@ -13,7 +13,11 @@ import { FormGroup, Label, Input, Button } from '../../components/general/FormEl
 const ProjectsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  gap: 16px;
+  overflow: hidden;
 `;
 
 const PageHeader = styled.div`

@@ -12,22 +12,30 @@ const TableWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 70vh;
+  flex: 1; /* REPLACE height: 83.6% with this so it fills the screen perfectly */
 `;
 
 const StyledTable = styled.table`
   width: 100%;
+  height: 100%; /* ADD THIS so the table stretches to the pagination controls */
   border-collapse: collapse;
   text-align: left;
   table-layout: fixed;
 `;
+
+const TableScrollContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+`;
+
 
 const TableHead = styled.thead`
   background-color: ${(props) => props.theme.colors.background};
   border-bottom: 2px solid ${(props) => props.theme.colors.border};
 `;
 
+// this is for table header right border between columns
 const TableHeader = styled.th`
   padding: 16px;
   color: ${(props) => props.theme.colors.textSecondary};
@@ -36,17 +44,19 @@ const TableHeader = styled.th`
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   width: ${(props) => props.$width || 'auto'};
-  border-right: 1px solid ${(props) => props.theme.colors.border};
+  border-right: 1px solid ${(props) => props.theme.colors.border}; 
 
   &:last-child {
     border-right: none;
   }
 `;
 
+// table row border 
 const TableRow = styled.tr`
-  border-bottom: 1px solid ${(props) => props.theme.colors.border};
+  border-bottom: 1px solid ${(props) => props.theme.colors.border}; 
   transition: background-color 0.2s;
   height: 57px;
+  flex : 1;
   cursor: ${(props) => (props.$clickable ? 'pointer' : 'default')};
   
   &:hover {
@@ -54,20 +64,21 @@ const TableRow = styled.tr`
   }
 `;
 
-
+// this is for border between rows
 const EmptyRow = styled.tr`
   height: 57px;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid transparent; 
 `;
 
+//this is for border right between columns
 const TableCell = styled.td`
   padding: 16px;
   color: ${(props) => props.theme.colors.text};
   font-size: 0.95rem;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  border-right: 1px solid ${(props) => props.theme.colors.border};
+  text-overflow: clip;
+  border-right: 1px solid ${(props) => props.theme.colors.border}; 
 
   &:last-child {
     border-right: none;
@@ -128,7 +139,7 @@ const ArrowButton = styled.button`
   }
 `;
 
-const Table = ({ columns, data, rowsPerPage = 6, onRowClick }) => {
+const Table = ({ columns, data, rowsPerPage = 5, onRowClick }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(data.length / rowsPerPage) || 1;
@@ -141,68 +152,70 @@ const Table = ({ columns, data, rowsPerPage = 6, onRowClick }) => {
 
   return (
     <TableWrapper>
-      <StyledTable>
-        <TableHead>
-          <tr>
-            {columns.map((col, index) => (
-              <TableHeader key={index} $width={col.width}>
-                {col.header}
-              </TableHeader>
-            ))}
-          </tr>
-        </TableHead>
-        <tbody>
-          {currentData.length > 0 ? (
-            currentData.map((row, rowIndex) => (
+      <TableScrollContainer>
+        <StyledTable>
+          <TableHead>
+            <tr>
+              {columns.map((col, index) => (
+                <TableHeader key={index} $width={col.width}>
+                  {col.header}
+                </TableHeader>
+              ))}
+            </tr>
+          </TableHead>
+          <tbody>
+            {currentData.length > 0 ? (
+              currentData.map((row, rowIndex) => (
 
-              <TableRow
-                key={rowIndex}
-                onClick={() => onRowClick && onRowClick(row)}
-                $clickable={!!onRowClick}
-              >
-                {columns.map((col, colIndex) => (
+                <TableRow
+                  key={rowIndex}
+                  onClick={() => onRowClick && onRowClick(row)}
+                  $clickable={!!onRowClick}
+                >
+                  {columns.map((col, colIndex) => (
 
-                  <TableCell key={colIndex}>
-                    {col.type === 'icon' ? (
-                      (() => {
-                        // Dynamically grab the correct icon component based on the string saved in the DB
-                        const IconComp = PhosphorIcons[row[col.accessor]] || PhosphorIcons.Circle;
-                        return <IconComp size={24} weight="fill" color="var(--primary, #007bff)" />;
-                      })()
-                    ) : col.accessor === 'status' ? (
-                      <StatusBadge $status={row[col.accessor]}>
-                        {row[col.accessor].replace('_', ' ').toUpperCase()}
-                      </StatusBadge>
-                    ) : col.type === 'date' ? (
-                      formatIsoDate(row[col.accessor], 'standard')
-                    ) : (
-                      row[col.accessor]
-                    )}
-                  </TableCell>
+                    <TableCell key={colIndex}>
+                      {col.type === 'icon' ? (
+                        (() => {
+                          // Dynamically grab the correct icon component based on the string saved in the DB
+                          const IconComp = PhosphorIcons[row[col.accessor]] || PhosphorIcons.Circle;
+                          return <IconComp size={24} weight="fill" color="var(--primary, #007bff)" />;
+                        })()
+                      ) : col.accessor === 'status' ? (
+                        <StatusBadge $status={row[col.accessor]}>
+                          {row[col.accessor].replace('_', ' ').toUpperCase()}
+                        </StatusBadge>
+                      ) : col.type === 'date' ? (
+                        formatIsoDate(row[col.accessor], 'standard')
+                      ) : (
+                        row[col.accessor]
+                      )}
+                    </TableCell>
 
-                ))}
+                  ))}
+                </TableRow>
+
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} style={{ textAlign: 'center' }}>
+                  No data available
+                </TableCell>
               </TableRow>
+            )}
 
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} style={{ textAlign: 'center' }}>
-                No data available
-              </TableCell>
-            </TableRow>
-          )}
-
-          {emptyRowsCount > 0 && currentData.length > 0 && (
-            Array.from({ length: emptyRowsCount }).map((_, index) => (
-              <EmptyRow key={`empty-${index}`}>
-                {columns.map((_, colIndex) => (
-                  <TableCell key={colIndex}> </TableCell>
-                ))}
-              </EmptyRow>
-            ))
-          )}
-        </tbody>
-      </StyledTable>
+            {emptyRowsCount > 0 && currentData.length > 0 && (
+              Array.from({ length: emptyRowsCount }).map((_, index) => (
+                <EmptyRow key={`empty-${index}`}>
+                  {columns.map((_, colIndex) => (
+                    <TableCell key={colIndex}> </TableCell>
+                  ))}
+                </EmptyRow>
+              ))
+            )}
+          </tbody>
+        </StyledTable>
+      </TableScrollContainer>
 
       <PaginationControls>
         <ArrowButton onClick={handlePrev} disabled={currentPage === 1}>

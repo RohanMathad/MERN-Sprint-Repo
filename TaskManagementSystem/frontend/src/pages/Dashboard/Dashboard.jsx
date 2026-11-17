@@ -10,7 +10,11 @@ import IconPicker from '../../components/general/IconPicker.jsx';
 const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
   gap: 20px;
+  overflow: hidden;
 `;
 
 const PageHeader = styled.div`
@@ -68,7 +72,7 @@ const Dashboard = () => {
 
   // Holds the task currently being viewed/deleted
   const [selectedTask, setSelectedTask] = useState(null);
-  
+
   // FIXED: Added missing editTask state for the Edit Modal
   const [editTask, setEditTask] = useState(null);
 
@@ -79,7 +83,7 @@ const Dashboard = () => {
     status: 'pending',
     due_date: '',
     icon: 'CheckCircle', // Default icon
-    project_id: 7 
+    project_id: 7
   });
 
   // Table Columns
@@ -94,7 +98,8 @@ const Dashboard = () => {
   const fetchTasks = async () => {
     try {
       const response = await api.get('/tasks');
-      setTasks(response.data.data);
+      const sortedTasks = response.data.data.sort((a, b) => b.id - a.id);
+      setTasks(sortedTasks);
     } catch (err) {
       setError('Failed to fetch tasks.');
       console.error(err);
@@ -180,18 +185,21 @@ const Dashboard = () => {
             <Label>Description</Label>
             <TextArea value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })} />
           </FormGroup>
-          <FormGroup>
-            <Label>Status</Label>
-            <Select value={newTask.status} onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}>
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </Select>
-          </FormGroup>
-          <FormGroup>
-            <Label>Due Date</Label>
-            <Input type="date" required value={newTask.due_date} onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })} />
-          </FormGroup>
+          <div style={{ display: 'flex', gap: '15px' }}>
+            <FormGroup style={{ flex: 1 }}>
+              <Label>Status</Label>
+              <Select value={newTask.status} onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </Select>
+            </FormGroup>
+
+            <FormGroup style={{ flex: 1 }}>
+              <Label>Due Date</Label>
+              <Input type="date" required value={newTask.due_date} onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })} />
+            </FormGroup>
+          </div>
           <Button type="submit" style={{ width: '100%', marginTop: '10px' }}>Save Task</Button>
         </form>
       </Modal>
@@ -236,8 +244,8 @@ const Dashboard = () => {
               <Label>Task Icon</Label>
               {/* FIXED: Now correctly references editTask instead of newTask */}
               <IconPicker
-                selectedIcon={editTask.icon || 'CheckCircle'} 
-                onSelect={(selectedName) => setEditTask({ ...editTask, icon: selectedName })} 
+                selectedIcon={editTask.icon || 'CheckCircle'}
+                onSelect={(selectedName) => setEditTask({ ...editTask, icon: selectedName })}
               />
             </FormGroup>
             <FormGroup>
@@ -248,18 +256,24 @@ const Dashboard = () => {
               <Label>Description</Label>
               <TextArea value={editTask.description || ''} onChange={(e) => setEditTask({ ...editTask, description: e.target.value })} />
             </FormGroup>
-            <FormGroup>
-              <Label>Status</Label>
-              <Select value={editTask.status} onChange={(e) => setEditTask({ ...editTask, status: e.target.value })}>
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </Select>
-            </FormGroup>
-            <FormGroup>
-              <Label>Due Date</Label>
-              <Input type="date" required value={editTask.due_date} onChange={(e) => setEditTask({ ...editTask, due_date: e.target.value })} />
-            </FormGroup>
+
+            {/* Side-by-side container */}
+            <div style={{ display: 'flex', gap: '15px' }}>
+              <FormGroup style={{ flex: 1 }}>
+                <Label>Status</Label>
+                <Select value={editTask.status} onChange={(e) => setEditTask({ ...editTask, status: e.target.value })}>
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </Select>
+              </FormGroup>
+
+              <FormGroup style={{ flex: 1 }}>
+                <Label>Due Date</Label>
+                <Input type="date" required value={editTask.due_date} onChange={(e) => setEditTask({ ...editTask, due_date: e.target.value })} />
+              </FormGroup>
+            </div>
+
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
               <Button type="submit" style={{ flex: 1 }}>Update</Button>
               <Button type="button" style={{ flex: 1, backgroundColor: '#6c757d' }} onClick={() => setActiveModal('view')}>Cancel</Button>
@@ -280,8 +294,9 @@ const Dashboard = () => {
               Are you sure you want to delete task <strong>#{selectedTask.id} {selectedTask.title}</strong>? This action cannot be undone.
             </p>
             <div style={{ display: 'flex', gap: '10px', marginTop: '25px' }}>
-              <Button style={{ flex: 1, backgroundColor: '#dc3545' }} onClick={handleDeleteTask}>Yes, Delete</Button>
               <Button style={{ flex: 1, backgroundColor: '#6c757d' }} onClick={() => setActiveModal('view')}>Cancel</Button>
+              <Button style={{ flex: 1, backgroundColor: '#dc3545' }} onClick={handleDeleteTask}>Yes, Delete</Button>
+              
             </div>
           </>
         )}
@@ -293,7 +308,7 @@ const Dashboard = () => {
       ) : error ? (
         <p style={{ color: '#dc3545', fontWeight: 'bold' }}>{error}</p>
       ) : (
-        <Table columns={taskColumns} data={tasks} onRowClick={handleRowClick} />
+        <Table columns={taskColumns} data={tasks} rowsPerPage={6} onRowClick={handleRowClick} />
       )}
     </DashboardContainer>
   );

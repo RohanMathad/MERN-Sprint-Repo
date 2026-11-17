@@ -15,7 +15,7 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  padding: 10px 12px;
+  padding: 10px 11px;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 4px;
   background-color: ${(props) => props.theme.colors.background};
@@ -29,12 +29,27 @@ export const Input = styled.input`
 `;
 
 export const Select = styled.select`
-  padding: 10px 12px;
+  /* 1. Update padding to add a 36px gap on the right side for the new arrow */
+  padding: 10px 36px 10px 12px;
+  
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 4px;
   background-color: ${(props) => props.theme.colors.background};
   color: ${(props) => props.theme.colors.text};
-  font-size: 1rem;
+  font-size: 1.2rem;
+  
+  /* 2. Strip away the native browser dropdown arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* 3. Inject the custom white SVG arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  
+  /* 4. Position the arrow exactly 12px away from the right edge */
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
   
   &:focus {
     outline: none;
