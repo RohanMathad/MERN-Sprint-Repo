@@ -1,37 +1,35 @@
 import { Task } from '../models/index.js';
 
-const updateTaskController = async (req, res) => {
+export default async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, status, due_date, project_id } = req.body;
+        const { role, project_id: userProjectId } = req.user;
+        const { title, description, status, due_date, icon } = req.body;
 
-        const existingTask = await Task.findByPk(id);
-        if (!existingTask) {
+        const task = await Task.findByPk(id);
+        if (!task) {
             return res.status(404).json({ success: false, message: 'Task not found' });
         }
 
-        if (!title || title.trim() === '') {
-            return res.status(400).json({ success: false, message: 'Task title is required' });
+        // SECURITY CHECK: Prevent users from updating tasks in other projects
+        if (role === 'user' && task.project_id !== userProjectId) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Forbidden: You can only update tasks within your assigned project.' 
+            });
         }
 
-        await Task.update(
-            {
-                title: title.trim(),
-                description,
-                status,
-                due_date,
-                project_id
-            },
-            { where: { id } }
-        );
+        task.title = title || task.title;
+        task.description = description || task.description;
+        task.status = status || task.status;
+        task.due_date = due_date || task.due_date;
+        task.icon = icon || task.icon;
 
-        const updatedTask = await Task.findByPk(id);
+        await task.save();
 
-        return res.status(200).json({ success: true, data: updatedTask });
+        res.status(200).json({ success: true, data: task });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        console.error('Error updating task:', error);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
-
-export default updateTaskController;
-export { updateTaskController };

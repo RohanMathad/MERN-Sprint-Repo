@@ -1,8 +1,8 @@
 import express from 'express';
-import * as projectController from '../controllers/projectController.js';
+import getProjectBillingController from '../controllers/getProjectBillingController.js';
 
 const router = express.Router();
 
-router.get('/:id/billing/', projectController.getProjectBilling);
+router.get('/:id/billing/', getProjectBillingController);
 
 export default router;

@@ -1,21 +1,28 @@
 import { Task } from '../models/index.js';
 
-const deleteTaskController = async (req, res) => {
+export default async (req, res) => {
     try {
         const { id } = req.params;
+        const { role, project_id: userProjectId } = req.user;
 
-        const taskToDelete = await Task.findByPk(id);
-        if (!taskToDelete) {
-            return res.status(404).json({ success: false, message: 'Task doesnt exist!!' });
+        const task = await Task.findByPk(id);
+        if (!task) {
+            return res.status(404).json({ success: false, message: 'Task not found' });
         }
 
-        await Task.destroy({ where: { id } });
+        // SECURITY CHECK: Prevent users from deleting tasks in other projects
+        if (role === 'user' && task.project_id !== userProjectId) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Forbidden: You can only delete tasks within your assigned project.' 
+            });
+        }
 
-        return res.status(200).json({ success: true, message: 'Task deleted successfully' });
+        await task.destroy();
+
+        res.status(200).json({ success: true, message: 'Task deleted successfully' });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        console.error('Error deleting task:', error);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
-
-export default deleteTaskController;
-export { deleteTaskController };

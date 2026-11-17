@@ -23,10 +23,15 @@ const Task = sequelize.define('Task', {
         type: DataTypes.DATE,
         allowNull: true
     },
-    project_id : {
-        type : DataTypes.INTEGER,
-        allowNull : true
-    }
+    project_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    icon: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'CheckCircle', // A default Phosphor icon name we will use later
+    },
 }, {
     tableName: 'tasks',
     timestamps: true,

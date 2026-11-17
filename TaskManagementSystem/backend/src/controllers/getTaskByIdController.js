@@ -16,4 +16,3 @@ const getTaskByIdController = async (req, res) => {
 };
 
 export default getTaskByIdController;
-export { getTaskByIdController };

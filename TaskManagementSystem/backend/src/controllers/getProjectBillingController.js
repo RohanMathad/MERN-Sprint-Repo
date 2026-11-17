@@ -1,0 +1,27 @@
+import { Project, Task } from '../models/index.js';
+
+export default async (req, res) => {
+    try {
+        const projectId = req.params.id;
+
+        const project = await Project.findByPk(projectId, {
+            include: [
+                {
+                    model: Task,
+                    as: 'tasks',
+                    // Note: Included 'icon' here so the frontend can read it later!
+                    attributes: ['id', 'title', 'description', 'status', 'due_date', 'icon', 'project_id']
+                }
+            ]
+        });
+
+        if (!project) {
+            return res.status(404).json({ success: false, message: 'Project not found' });
+        }
+
+        res.status(200).json({ success: true, data: project });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
