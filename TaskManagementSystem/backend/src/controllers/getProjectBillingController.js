@@ -9,7 +9,6 @@ export default async (req, res) => {
                 {
                     model: Task,
                     as: 'tasks',
-                    // Note: Included 'icon' here so the frontend can read it later!
                     attributes: ['id', 'title', 'description', 'status', 'due_date', 'icon', 'project_id']
                 }
             ]

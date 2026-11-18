@@ -12,7 +12,7 @@ const TableWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex: 1; /* REPLACE height: 83.6% with this so it fills the screen perfectly */
+  flex: 1;
 `;
 
 const StyledTable = styled.table`
@@ -35,7 +35,6 @@ const TableHead = styled.thead`
   border-bottom: 2px solid ${(props) => props.theme.colors.border};
 `;
 
-// this is for table header right border between columns
 const TableHeader = styled.th`
   padding: 16px;
   color: ${(props) => props.theme.colors.textSecondary};
@@ -51,7 +50,6 @@ const TableHeader = styled.th`
   }
 `;
 
-// table row border 
 const TableRow = styled.tr`
   border-bottom: 1px solid ${(props) => props.theme.colors.border}; 
   transition: background-color 0.2s;
@@ -64,13 +62,11 @@ const TableRow = styled.tr`
   }
 `;
 
-// this is for border between rows
 const EmptyRow = styled.tr`
   height: 57px;
   border-bottom: 1px solid transparent; 
 `;
 
-//this is for border right between columns
 const TableCell = styled.td`
   padding: 16px;
   color: ${(props) => props.theme.colors.text};
@@ -177,7 +173,6 @@ const Table = ({ columns, data, rowsPerPage = 5, onRowClick }) => {
                     <TableCell key={colIndex}>
                       {col.type === 'icon' ? (
                         (() => {
-                          // Dynamically grab the correct icon component based on the string saved in the DB
                           const IconComp = PhosphorIcons[row[col.accessor]] || PhosphorIcons.Circle;
                           return <IconComp size={24} weight="fill" color="var(--primary, #007bff)" />;
                         })()

@@ -19,7 +19,6 @@ const SidebarContainer = styled.aside`
   overflow: hidden;
 `;
 
-// --- TOP SECTION ---
 const TopSection = styled.div`
   padding: 24px 20px;
   border-bottom: 1px solid ${(props) => props.theme?.colors?.border || '#dee2e6'};
@@ -44,7 +43,6 @@ const Brand = styled(Link)`
   }
 `;
 
-// --- MIDDLE SECTION (NAVIGATION) ---
 const NavSection = styled.nav`
   flex: 1;
   padding: 20px 14px;
@@ -87,7 +85,6 @@ const NavItem = styled(NavLink)`
   }
 `;
 
-// --- BOTTOM SECTION ---
 const BottomSection = styled.div`
   padding: 16px 14px;
   border-top: 1px solid ${(props) => props.theme?.colors?.border || '#dee2e6'};
@@ -198,7 +195,7 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      {/* 1. Top Section: Logo / Title */}
+
       <TopSection>
         <Brand to="/">
           <CheckCircle size={28} weight="fill" />
@@ -206,7 +203,6 @@ const Sidebar = () => {
         </Brand>
       </TopSection>
 
-      {/* 2. Middle Section: Navigation Links */}
       <NavSection>
         <NavItem to="/" end>
           <ListChecks size={20} />
@@ -221,7 +217,6 @@ const Sidebar = () => {
         )}
       </NavSection>
 
-      {/* 3. Bottom Section: Theme Toggle, User Badge, Logout */}
       <BottomSection>
         {toggleTheme && (
           <ThemeToggleButton type="button" onClick={toggleTheme}>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import api from '../../api/axiosInstance.js';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { FormGroup, Label, Input, Button } from '../../components/general/FormElements.jsx';
-import { Eye, EyeSlash } from '@phosphor-icons/react'; // 1. Import the icons
+import { Eye, EyeSlash } from '@phosphor-icons/react';
 
 const AuthContainer = styled.div`
   max-width: 400px;
@@ -28,7 +28,6 @@ const ErrorMsg = styled.p`
   text-align: center;
 `;
 
-// 2. Wrapper to position the eye icon inside the input field
 const PasswordWrapper = styled.div`
   position: relative;
   display: flex;
@@ -36,7 +35,7 @@ const PasswordWrapper = styled.div`
 
   input {
     width: 100%;
-    padding-right: 40px; /* Leave space for the icon */
+    padding-right: 40px;
   }
 `;
 
@@ -60,7 +59,7 @@ const EyeButton = styled.button`
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // 3. State for visibility toggle
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);

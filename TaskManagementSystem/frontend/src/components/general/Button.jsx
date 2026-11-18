@@ -17,7 +17,7 @@ const StyledButton = styled.button`
 const Button = () => {
   return (
     <StyledButton>
-        Button
+        
     </StyledButton>
   )
 }

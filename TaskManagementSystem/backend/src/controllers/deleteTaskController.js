@@ -10,7 +10,6 @@ export default async (req, res) => {
             return res.status(404).json({ success: false, message: 'Task not found' });
         }
 
-        // SECURITY CHECK: Prevent users from deleting tasks in other projects
         if (role === 'user' && task.project_id !== userProjectId) {
             return res.status(403).json({ 
                 success: false, 

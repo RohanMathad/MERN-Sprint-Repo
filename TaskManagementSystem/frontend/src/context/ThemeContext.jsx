@@ -39,7 +39,7 @@ const darkTheme = {
 };
 
 export const AppThemeProvider = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = useState(true); // Temperory Dark mode enabled!
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     const toggleTheme = () => setIsDarkMode(!isDarkMode);
     const activeTheme = {

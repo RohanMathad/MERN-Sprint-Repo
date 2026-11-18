@@ -55,11 +55,10 @@
 
 import { Umzug, SequelizeStorage } from 'umzug';
 import { Sequelize } from 'sequelize';
-import sequelize from './config/db.js'; // Ensure this matches your db file path
+import sequelize from './config/db.js'; 
 import { fileURLToPath } from 'url';
 import path from 'path';
 
-// 1. Get the absolute path to the backend folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const migrationsPath = path.join(__dirname, '../migrations/*.js');
@@ -88,14 +87,15 @@ const umzug = new Umzug({
 
 (async () => {
   try {
-    // 2. Check if there are actually files to run
     const pending = await umzug.pending();
     if (pending.length === 0) {
-      console.log('No pending migrations found! Check that your files end in .js in the migrations folder.');
+      console.log('No pending migrations found!');
       process.exit(0);
     }
 
     await umzug.up();
+
+
     console.log('-------------------------------------');
     console.log('Migrations executed successfully!');
     console.log('-------------------------------------');

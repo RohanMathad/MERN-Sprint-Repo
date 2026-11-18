@@ -1,14 +1,13 @@
-/** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
   await queryInterface.addColumn('tasks', 'project_id', {
     type : Sequelize.INTEGER,
     allowNull :true,
     references : {
-      model : 'projects',//parent table
-      key : 'id'//column we are linking to of parent table
+      model : 'projects',
+      key : 'id'
     },
     onUpdate : 'CASCADE',
-    onDelete : 'SET NULL'//if proj is deleted then dont delete the task,just set it null
+    onDelete : 'SET NULL'
   });
 }
 

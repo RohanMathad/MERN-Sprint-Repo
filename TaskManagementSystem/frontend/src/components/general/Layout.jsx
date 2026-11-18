@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Outlet, Link } from 'react-router-dom';
 import { useAppTheme } from '../../context/ThemeContext.jsx';
 
-// --- STYLED COMPONENTS ---
 const LayoutContainer = styled.div`
   display: flex;
   height: 100vh;
@@ -75,13 +74,12 @@ const Logo = styled.h2`
   margin-bottom: 30px;
 `;
 
-// --- COMPONENT ---
 const Layout = () => {
   const { isDarkMode, toggleTheme } = useAppTheme();
 
   return (
     <LayoutContainer>
-      {/* SIDEBAR */}
+
       <Sidebar>
         <Logo>TaskApp</Logo>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -90,9 +88,8 @@ const Layout = () => {
         </div>
       </Sidebar>
       
-      {/* MAIN CONTENT AREA */}
       <MainArea>
-        {/* HEADER */}
+
         <Header>
           <div style={{ fontWeight: 'bold' }}>Welcome, User</div>
           <ThemeButton onClick={toggleTheme}>
@@ -100,7 +97,6 @@ const Layout = () => {
           </ThemeButton>
         </Header>
         
-        {/* DYNAMIC PAGE CONTENT GOES HERE */}
         <ContentArea>
           <Outlet />
         </ContentArea>

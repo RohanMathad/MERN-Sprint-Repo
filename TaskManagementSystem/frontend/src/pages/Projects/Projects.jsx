@@ -139,22 +139,16 @@ const TaskCard = styled.div`
 `;
 
 const Projects = () => {
-  // Get the logged-in user from context
   const { user } = useContext(AuthContext);
 
-  // Table State
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Modal States
   const [isBillingModalOpen, setIsBillingModalOpen] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // NEW
-  
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); 
   const [billingData, setBillingData] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
-
-  // New Project Form State
   const [newProject, setNewProject] = useState({ name: '', billing_budget: '' });
 
   const projectColumns = [
@@ -163,7 +157,6 @@ const Projects = () => {
     { header: 'Billing Budget ($)', accessor: 'billing_budget', width: '200px' },
   ];
 
-  // 1. Fetch initial list of projects for the Table
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -180,7 +173,6 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  // 2. Fetch nested billing data when a row is clicked
   const handleRowClick = async (project) => {
     setIsBillingModalOpen(true);
     setModalLoading(true);
@@ -204,7 +196,7 @@ const Projects = () => {
       await api.post('/projects', newProject);
       setIsCreateModalOpen(false);
       setNewProject({ name: '', billing_budget: '' });
-      // Refresh the table
+      
       const response = await api.get('/projects');
       setProjects(response.data.data);
     } catch (err) {

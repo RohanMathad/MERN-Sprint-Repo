@@ -67,26 +67,18 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Master state for which modal is open ('create', 'view', 'edit', 'delete', or null)
   const [activeModal, setActiveModal] = useState(null);
-
-  // Holds the task currently being viewed/deleted
   const [selectedTask, setSelectedTask] = useState(null);
-
-  // FIXED: Added missing editTask state for the Edit Modal
   const [editTask, setEditTask] = useState(null);
-
-  // Add icon to newTask default state
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
     status: 'pending',
     due_date: '',
-    icon: 'CheckCircle', // Default icon
+    icon: 'CheckCircle', 
     project_id: 7
   });
 
-  // Table Columns
   const taskColumns = [
     { header: '', accessor: 'icon', type: 'icon', width: '50px' },
     { header: 'ID', accessor: 'id', width: '80px' },
@@ -163,7 +155,6 @@ const Dashboard = () => {
         <Button onClick={() => setActiveModal('create')}>+ New Task</Button>
       </PageHeader>
 
-      {/* --- 1. CREATE MODAL --- */}
       <Modal isOpen={activeModal === 'create'} onClose={() => setActiveModal(null)}>
         <ModalHeader>
           <h3>Create a New Task</h3>
@@ -204,7 +195,6 @@ const Dashboard = () => {
         </form>
       </Modal>
 
-      {/* --- 2. VIEW MODAL --- */}
       <Modal isOpen={activeModal === 'view'} onClose={() => setActiveModal(null)}>
         <ModalHeader>
           <h3>Task Details</h3>
@@ -232,7 +222,6 @@ const Dashboard = () => {
         )}
       </Modal>
 
-      {/* --- 3. EDIT MODAL --- */}
       <Modal isOpen={activeModal === 'edit'} onClose={() => setActiveModal('view')}>
         <ModalHeader>
           <h3>Edit Task</h3>
@@ -242,7 +231,6 @@ const Dashboard = () => {
           <form onSubmit={handleUpdateTask}>
             <FormGroup>
               <Label>Task Icon</Label>
-              {/* FIXED: Now correctly references editTask instead of newTask */}
               <IconPicker
                 selectedIcon={editTask.icon || 'CheckCircle'}
                 onSelect={(selectedName) => setEditTask({ ...editTask, icon: selectedName })}
@@ -257,7 +245,6 @@ const Dashboard = () => {
               <TextArea value={editTask.description || ''} onChange={(e) => setEditTask({ ...editTask, description: e.target.value })} />
             </FormGroup>
 
-            {/* Side-by-side container */}
             <div style={{ display: 'flex', gap: '15px' }}>
               <FormGroup style={{ flex: 1 }}>
                 <Label>Status</Label>
@@ -282,7 +269,6 @@ const Dashboard = () => {
         )}
       </Modal>
 
-      {/* --- 4. DELETE CONFIRMATION MODAL --- */}
       <Modal isOpen={activeModal === 'delete'} onClose={() => setActiveModal('view')}>
         <ModalHeader>
           <h3>Confirm Delete</h3>
@@ -301,7 +287,6 @@ const Dashboard = () => {
         )}
       </Modal>
 
-      {/* DATA TABLE */}
       {loading ? (
         <p style={{ color: 'var(--text)' }}>Loading tasks...</p>
       ) : error ? (

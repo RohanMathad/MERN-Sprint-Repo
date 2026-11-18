@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
 
-    // NEW: Explicitly check that the token isn't the string "undefined" or "null"
     if (
       savedToken && savedToken !== 'undefined' && savedToken !== 'null' && 
       savedUser && savedUser !== 'undefined'

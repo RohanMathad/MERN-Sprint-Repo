@@ -24,7 +24,6 @@ const IconButton = styled.button`
   }
 `;
 
-// The exact names here MUST match the Phosphor export names
 const availableIcons = [
   { name: 'CheckCircle', component: CheckCircle },
   { name: 'Warning', component: Warning },

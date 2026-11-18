@@ -30,7 +30,7 @@ const Task = sequelize.define('Task', {
     icon: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: 'CheckCircle', // A default Phosphor icon name we will use later
+        defaultValue: 'CheckCircle',
     },
 }, {
     tableName: 'tasks',
