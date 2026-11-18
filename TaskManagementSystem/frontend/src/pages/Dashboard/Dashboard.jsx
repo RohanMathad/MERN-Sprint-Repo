@@ -296,7 +296,6 @@ const Dashboard = () => {
             <div style={{ display: 'flex', gap: '10px', marginTop: '25px' }}>
               <Button style={{ flex: 1, backgroundColor: '#6c757d' }} onClick={() => setActiveModal('view')}>Cancel</Button>
               <Button style={{ flex: 1, backgroundColor: '#dc3545' }} onClick={handleDeleteTask}>Yes, Delete</Button>
-              
             </div>
           </>
         )}

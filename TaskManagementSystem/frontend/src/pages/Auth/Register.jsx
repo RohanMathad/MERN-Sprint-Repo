@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../api/axiosInstance.js';
 import { FormGroup, Label, Input, Button } from '../../components/general/FormElements.jsx';
+import { Eye, EyeSlash } from '@phosphor-icons/react';
 
 const AuthContainer = styled.div`
   max-width: 400px;
@@ -14,10 +15,39 @@ const AuthContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
+const PasswordWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    padding-right: 40px;
+  }
+`;
+
+const EyeButton = styled.button`
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: ${(props) => props.theme.colors.textSecondary};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    color: ${(props) => props.theme.colors.eye};
+  }
+`;
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -29,9 +59,9 @@ const Register = () => {
         name, 
         email, 
         password,
-        project_id: 7 // Hardcoded to your Zeliot project for now!
+        project_id: 7 
       });
-      navigate('/login'); // Send them to login after successful registration
+      navigate('/login'); 
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed.');
     }
@@ -52,7 +82,17 @@ const Register = () => {
         </FormGroup>
         <FormGroup>
           <Label>Password</Label>
-          <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+          <PasswordWrapper>
+            <Input 
+              type={showPassword ? 'text' : 'password'} 
+              required 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+            />
+            <EyeButton type="button" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
+            </EyeButton>
+          </PasswordWrapper>
         </FormGroup>
         <Button type="submit" style={{ width: '100%', marginTop: '10px' }}>Register</Button>
       </form>

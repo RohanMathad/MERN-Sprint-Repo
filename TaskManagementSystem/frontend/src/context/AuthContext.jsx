@@ -8,11 +8,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // When the app loads, check if they already have a token saved
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
 
-    if (savedToken && savedUser) {
+    // NEW: Explicitly check that the token isn't the string "undefined" or "null"
+    if (
+      savedToken && savedToken !== 'undefined' && savedToken !== 'null' && 
+      savedUser && savedUser !== 'undefined'
+    ) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
     }
